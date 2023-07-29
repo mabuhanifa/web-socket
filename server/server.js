@@ -21,12 +21,14 @@ const io = new Server(server, {
 });
 
 app.get("/", (req, res) => {
-    res.send("Hello World!");
-
-})
+  res.send("Hello World!");
+});
 
 io.on("connection", (socket) => {
   console.log(`User Connected: ${socket.id}`);
+  socket.on("message", (data) => {
+    console.log(data);
+  });
 });
 
 server.listen(port, () => {

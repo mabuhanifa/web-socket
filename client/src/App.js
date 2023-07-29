@@ -8,7 +8,7 @@ export default function App() {
 
   const sendMessage = () => {
     socket.emit("message", {
-      hi: " message",
+      message: " message",
     });
   };
 
