@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import io from "socket.io-client";
 
-const socket = io.connect("http://localhost:5000");
+const socket = io.connect("http://localhost:3001");
 
 export default function App() {
   const [message, setMessage] = useState("");
 
-  const sendMessage = () => {};
+  const sendMessage = () => {
+    socket.emit("message", {
+      hi: " message",
+    });
+  };
 
   return (
     <div>
@@ -16,7 +20,7 @@ export default function App() {
           placeholder="message"
           onChange={(e) => setMessage(e.target.value)}
         />
-        <button>Send</button>
+        <button onClick={sendMessage}>Send</button>
       </div>
     </div>
   );
