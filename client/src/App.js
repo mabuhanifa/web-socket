@@ -1,29 +1,27 @@
 import React, { useEffect, useState } from "react";
 import io from "socket.io-client";
-
 const socket = io("http://localhost:3333");
 
 function App() {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
-  console.log({
-    message,
-    messages,
-  });
 
-  useEffect(() => {
-    socket.on("message", (data) => {
-      setMessages((prev) => [...prev, data]);
-    });
+  // useEffect(() => {
+  //   socket.on("message", (data) => {
+  //     setMessages((prev) => [...prev, data]);
+  //   });
 
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
+  //   return () => {
+  //     socket.disconnect();
+  //   };
+  // }, []);
 
   const sendMessage = () => {
     if (message) {
       socket.emit("message", message);
+      socket.on("message", (data) => {
+        setMessages((prev) => [...prev, data]);
+      });
       setMessage("");
     }
   };
@@ -51,6 +49,21 @@ function App() {
         style={{ marginRight: "10px" }}
       />
       <button onClick={sendMessage}>Send</button>
+      <button
+        onClick={() => {
+          socket.emit("message", message);
+          setMessage("");
+        }}
+      >
+        Start
+      </button>
+      <button
+        onClick={() => {
+          socket.disconnect();
+        }}
+      >
+        End
+      </button>
     </div>
   );
 }
